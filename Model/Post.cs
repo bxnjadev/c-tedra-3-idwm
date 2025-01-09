@@ -19,6 +19,21 @@ public class Post
 
 }
 
+public class PostView {
+
+    public int Id { get; set; } = 0;
+    
+    public string Title { get; set; } = string.Empty;
+
+    public string DateCreated { get; set; } = string.Empty;
+
+    public string Url { get; set; } = string.Empty;
+
+    public int UserId { get; set; } = 0;
+    
+
+}
+
 public class CreationPost
 {
     
