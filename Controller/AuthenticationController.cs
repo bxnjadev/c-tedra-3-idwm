@@ -18,10 +18,11 @@ public class AuthenticationController : ControllerBase
 
     [HttpPost]
     [Route("/api/auth")]
-    public ActionResult<string> Auth(
+    public ActionResult<Model.Token> Auth(
         [FromBody] Authentication authentication
     )
     {
+        Console.WriteLine("AUTH REQUEST");
         var token = "";
         try
         {
@@ -32,8 +33,16 @@ public class AuthenticationController : ControllerBase
         {
             return Unauthorized(e.Message);
         }
-
-        return Ok(token);
+        
+        Console.WriteLine("TOKEN G = " + token);
+        var tokenResponse = new Model.Token
+        {
+            tokenContent = token
+        };
+        
+        Console.WriteLine("A = " + tokenResponse.tokenContent);
+        
+        return Ok(tokenResponse);
     }
     
     [HttpPost]

@@ -3,6 +3,7 @@
 public class User
 {
 
+    public int id { get; set; } = 0;
     public string Email { get; set; } = string.Empty;
 
     public string PasswordEncrypt { get; set; } = string.Empty;

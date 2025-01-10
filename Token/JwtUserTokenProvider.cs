@@ -7,23 +7,20 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 
-public class JwtUserTokenProvider
+public class JwtUserTokenProvider : IUserTokenProvider
 {
      private readonly string _jwtSecret;
-        private readonly string _validIssuer;
-        private readonly string _validAudience;
-        private readonly JwtSecurityTokenHandler _jwtSecurityTokenHandler;
+        private readonly JwtSecurityTokenHandler _jwtSecurityTokenHandler ;
 
         /// <summary>
         /// Initializes the JWT token provider with the required configuration.
         /// </summary>
         /// <param name="configuration">The application configuration containing the JWT keys.</param>
-        /// <param name="roleRepository">The role repository to retrieve the user's role information.</param>
         public JwtUserTokenProvider(IConfiguration configuration)
         {
             _jwtSecret = configuration["JWT:Secret"];
-            _validIssuer = configuration["JWT:ValidIssuer"];
-            _validAudience = configuration["JWT:ValidAudience"];
+            _jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
+            Console.WriteLine("S " + _jwtSecret);
         }
 
         /// <summary>
@@ -39,6 +36,8 @@ public class JwtUserTokenProvider
             {
                 new Claim(ClaimTypes.Email, user.Email),
             };
+            
+            Console.WriteLine("HOLII: " + _jwtSecret);
 
             var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSecret));
             DateTime? expiration = DateTime.UtcNow.AddHours(1);
@@ -46,14 +45,22 @@ public class JwtUserTokenProvider
                 authSigningKey,
                 SecurityAlgorithms.HmacSha256
             );
+            
+            Console.WriteLine("AAAA");
 
             var token = new JwtSecurityToken(
                 claims: claims,
                 expires: expiration,
                 signingCredentials: credentials
             );
+            
+            Console.WriteLine("AAAA");
 
-            return _jwtSecurityTokenHandler
+            var tokenS = _jwtSecurityTokenHandler
                 .WriteToken(token);
+            
+            Console.WriteLine("U: " + tokenS);
+
+            return tokenS;
         }
 }

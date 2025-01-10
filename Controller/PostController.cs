@@ -1,5 +1,6 @@
 using Catedra3.Model;
 using Catedra3.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Catedra3.Controller;
@@ -15,13 +16,19 @@ public class PostController : ControllerBase {
 
     [HttpPost]
     [Route("/api/post")]
-    public ActionResult<Post> Post([FromForm] CreationPost creationPost,
-    [FromForm] IFormFile formFile) {
+    [Authorize]
+    public async Task<ActionResult<Post>> Post([FromForm] CreationPost creationPost,
+    [FromForm] IFormFile formFile)
+    {
 
+        var post = await postService.
+              Publish(creationPost, formFile);
+        return post;
     }
 
     [HttpGet]
     [Route("/api/post")]
+    [Authorize]
     public ActionResult<List<Post>> All() {
         return postService.All();        
     }

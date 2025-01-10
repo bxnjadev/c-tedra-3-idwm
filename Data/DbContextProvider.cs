@@ -6,7 +6,7 @@ namespace Catedra3.Data;
 public class DbContextProvider : DbContext
 {
     
-    
+    public DbContextProvider() {}
     public DbContextProvider(DbContextOptions options) : base(options)
     {
     }

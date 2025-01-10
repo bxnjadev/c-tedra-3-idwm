@@ -1,4 +1,5 @@
 ﻿using System.Collections.Immutable;
+using Catedra3.Model;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using Microsoft.Extensions.Options;
@@ -19,12 +20,13 @@ public class CloudinaryImageService
     private const string Gravity = "face";
     private const string Folder = "ucn-store";
 
+    private readonly IOptions<CloudinarySettings> _config;
     private readonly string _urlConnection;
     private Cloudinary _cloudinary;
     
-    public CloudinaryImageService(string urlConnection)
+    public CloudinaryImageService(IOptions<CloudinarySettings> config)
     {
-        _urlConnection = urlConnection;
+        _config = config;
         Connect();
     }
     
@@ -33,7 +35,7 @@ public class CloudinaryImageService
     /// </summary>
     private void Connect()
     {
-        _cloudinary = new Cloudinary(_urlConnection);
+        _cloudinary = new Cloudinary(_config.Value.Url);
     }
 
     /// <summary>

@@ -11,6 +11,7 @@ public class JwtAuthenticationService : IAuthenticationService
 {
 
     private DbSet<User> _users;
+    private DbContextProvider _dbContextProvider;
     private IEncryptStrategy _encryptStrategy;
     private IUserTokenProvider _userTokenProvider;
 
@@ -22,11 +23,12 @@ public class JwtAuthenticationService : IAuthenticationService
         _users = dbContextProvider.Users;
         _encryptStrategy = encryptStrategy;
         _userTokenProvider = userTokenProvider;
+        _dbContextProvider = dbContextProvider;
     }
     
     public User Register(CreationUser creationUser)
     {
-
+        
         var userSearched = FindUserByEmail(creationUser.Email);
         if (userSearched != null)
         {
@@ -44,6 +46,8 @@ public class JwtAuthenticationService : IAuthenticationService
             userCreated  
         );
 
+        _dbContextProvider.SaveChanges();
+        
         return userCreated;
     }
 
@@ -53,6 +57,7 @@ public class JwtAuthenticationService : IAuthenticationService
         var user = FindUserByEmail(authentication.Email);
         if (user == null)
         {
+            Console.WriteLine("USUARIO NO EXISTE");
             throw new Exception("This user not exists");
         }
 
@@ -61,10 +66,14 @@ public class JwtAuthenticationService : IAuthenticationService
 
         if (!response)
         {
+            Console.WriteLine("PASSWORD INCORRECTA");
             throw new Exception("The password is incorrect");
         }
-
-        return _userTokenProvider.Token(user);
+        
+        
+        var token = _userTokenProvider.Token(user);
+        Console.WriteLine("Token = " + token);
+        return token;
     }
     
     private User? FindUserByEmail(string email){

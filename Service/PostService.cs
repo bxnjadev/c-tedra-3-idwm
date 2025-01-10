@@ -8,12 +8,14 @@ public class PostService : IPostService
 {
 
     private readonly CloudinaryImageService _cloudinaryImageService;
+    private readonly DbContextProvider _dbContextProvider;
     private readonly DbSet<Post> _posts;
 
     public PostService(CloudinaryImageService cloudinaryImageService,
         DbContextProvider dbContextProvider)
     {
         _cloudinaryImageService = cloudinaryImageService;
+        _dbContextProvider = dbContextProvider;
         _posts = dbContextProvider.Posts;
     }
     
@@ -32,7 +34,8 @@ public class PostService : IPostService
        _posts.Add(
            post
        );
-
+       
+       await _dbContextProvider.SaveChangesAsync();
        return post;
     }
 
