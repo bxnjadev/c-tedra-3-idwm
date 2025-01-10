@@ -12,6 +12,11 @@ public class User
 
 }
 
+public class UserView
+{
+    
+}
+
 public class CreationUser
 {
 

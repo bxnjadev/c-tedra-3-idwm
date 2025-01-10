@@ -23,7 +23,7 @@ public class AuthenticationController : ControllerBase
     )
     {
         Console.WriteLine("AUTH REQUEST");
-        var token = "";
+        Model.Token token = null;
         try
         {
             token =
@@ -33,16 +33,8 @@ public class AuthenticationController : ControllerBase
         {
             return Unauthorized(e.Message);
         }
-        
-        Console.WriteLine("TOKEN G = " + token);
-        var tokenResponse = new Model.Token
-        {
-            tokenContent = token
-        };
-        
-        Console.WriteLine("A = " + tokenResponse.tokenContent);
-        
-        return Ok(tokenResponse);
+
+        return Ok(token);
     }
     
     [HttpPost]

@@ -21,6 +21,11 @@ public class PostController : ControllerBase {
     [FromForm] IFormFile formFile)
     {
 
+        Console.WriteLine(creationPost.Title);
+        Console.WriteLine(creationPost.UserId);
+        Console.WriteLine(creationPost.DateCreated);
+
+        
         var post = await postService.
               Publish(creationPost, formFile);
         return post;

@@ -28,7 +28,8 @@ public class PostService : IPostService
        {
             Title = creationPost.Title,
             DateCreated = creationPost.DateCreated,
-            Url = url
+            Url = url,
+            UserId = creationPost.UserId
        };
 
        _posts.Add(
@@ -41,6 +42,7 @@ public class PostService : IPostService
 
     public List<Post> All()
     {
-        return _posts.ToList();
+        return _posts.
+            ToList();
     }
 }

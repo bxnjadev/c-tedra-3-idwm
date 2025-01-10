@@ -29,9 +29,6 @@ public class PostView {
 
     public string Url { get; set; } = string.Empty;
 
-    public int UserId { get; set; } = 0;
-    
-
 }
 
 public class CreationPost
@@ -43,8 +40,5 @@ public class CreationPost
     public string DateCreated { get; set; } = string.Empty;
 
     public int UserId { get; set; } = 0;
-    
-    public User User { get; set; } = null;
-
     
 }

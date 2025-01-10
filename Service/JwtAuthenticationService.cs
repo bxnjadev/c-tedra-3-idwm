@@ -51,13 +51,12 @@ public class JwtAuthenticationService : IAuthenticationService
         return userCreated;
     }
 
-    public string Auth(Authentication authentication)
+    public Model.Token Auth(Authentication authentication)
     {
 
         var user = FindUserByEmail(authentication.Email);
         if (user == null)
         {
-            Console.WriteLine("USUARIO NO EXISTE");
             throw new Exception("This user not exists");
         }
 
@@ -66,14 +65,17 @@ public class JwtAuthenticationService : IAuthenticationService
 
         if (!response)
         {
-            Console.WriteLine("PASSWORD INCORRECTA");
             throw new Exception("The password is incorrect");
         }
         
         
         var token = _userTokenProvider.Token(user);
         Console.WriteLine("Token = " + token);
-        return token;
+        return new Model.Token
+        {
+            tokenContent = token,
+            userId = user.id
+        };
     }
     
     private User? FindUserByEmail(string email){

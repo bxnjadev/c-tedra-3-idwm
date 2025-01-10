@@ -7,6 +7,6 @@ public interface IAuthenticationService
 
     User Register(CreationUser creationUser);
 
-    string Auth(Authentication authentication);
+    Model.Token Auth(Authentication authentication);
 
 }

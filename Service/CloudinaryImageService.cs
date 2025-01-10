@@ -35,6 +35,7 @@ public class CloudinaryImageService
     /// </summary>
     private void Connect()
     {
+        Console.WriteLine("URL = " + _config.Value.Url);
         _cloudinary = new Cloudinary(_config.Value.Url);
     }
 
